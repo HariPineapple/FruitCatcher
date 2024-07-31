@@ -1,40 +1,40 @@
-// tabs/TabLayout.js
 import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import TabTwoScreen from './explore';
-import HomeScreen from '.';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   return (
     <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: "#FFFFFF",
-        headerShown: false,
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'index') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'explore') {
+            iconName = focused ? 'code-slash' : 'code-slash-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#D81159',
+        tabBarInactiveTintColor: '#FFFFFF',
         tabBarStyle: {
           backgroundColor: '#5AA9E6',
           borderTopWidth: 0,
         },
-      }}>
+        headerShown: false,
+      })}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
           title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
         }}
       />
     </Tabs>

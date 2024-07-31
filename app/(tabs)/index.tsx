@@ -1,10 +1,45 @@
-import React from 'react';
-import { StyleSheet, SafeAreaView, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, SafeAreaView, Text, View, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const storedUserData = await AsyncStorage.getItem('userData');
+        if (storedUserData) {
+          setUserData(JSON.parse(storedUserData));
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (!userData) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.text}>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      
+    <Image source={require('/images/logo.png')} 
+        style={styles.image}
+      />
+      <Text style={styles.welcomeText}>Welcome {userData.username}!</Text>
+      <View style={styles.statsContainer}>
+        <Text style={styles.statsText}>Your Stats:</Text>
+        <Text style={styles.statsItem}>Fruits Caught: {userData.fruitsCaught}</Text>
+        <Text style={styles.statsItem}>Fruits Missed: {userData.fruitsMissed}</Text>
+        <Text style={styles.statsItem}>Best Score: {userData.bestScore}</Text>
+      </View>
     </SafeAreaView>
   );
 }
@@ -16,23 +51,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: {
+  welcomeText: {
     color: '#D81159',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
-  titleContainer: {
-    flexDirection: 'row',
+  statsContainer: {
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  statsText: {
+    color: '#D81159',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  statsItem: {
+    color: '#D81159',
+    fontSize: 18,
+    marginBottom: 5,
   },
+  image: {
+    width: 500,
+    height: 500
+  }
 });
