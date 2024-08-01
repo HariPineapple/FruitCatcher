@@ -30,7 +30,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-    <Image source={require('/images/logo.png')} 
+    <Image source={require('../../assets/images/logo.png')} 
         style={styles.image}
       />
       <Text style={styles.welcomeText}>Welcome {userData.username}!</Text>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   image: {
-    width: 500,
-    height: 500
+    width: 300,
+    height: 300,
   }
 });

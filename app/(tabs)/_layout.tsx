@@ -11,7 +11,7 @@ export default function TabLayout() {
           if (route.name === 'index') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'explore') {
-            iconName = focused ? 'code-slash' : 'code-slash-outline';
+            iconName = focused ? 'play' : 'play-outline';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -34,7 +34,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
+          title: 'Play',
         }}
       />
     </Tabs>
